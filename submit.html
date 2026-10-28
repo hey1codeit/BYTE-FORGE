@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File a Complaint — RaisoVoice | MNNIT Allahabad</title>
+  <meta name="description" content="Submit an official student petition anonymously or named. Cryptographically locked with pure SHA-256 genesis block.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 18c-3.75-1.02-7-5.08-7-9.3V8.3l7-3.89 7 3.89v2.4c0 4.22-3.25 8.28-7 9.3z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="top-notice-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="hackathon-badge">Webster 2026</span>
+        <span>Team <strong>ByteForge</strong> (ID: 198) • MNNIT Allahabad Anti-Corruption Grievance Portal</span>
+      </div>
+      <div>
+        <a href="admin.html" class="top-notice-link">Authority Admin Portal →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand-link">
+        <div class="brand-icon-box">🛡️</div>
+        <div class="brand-text">
+          <div class="brand-title">Raiso<span>Voice</span></div>
+          <div class="brand-subtitle">The Vishanti Petition • MNNIT Allahabad</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link active">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="track.html" class="btn btn-secondary btn-sm">
+          <span>🔍 Track Ticket</span>
+        </a>
+        <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-menu" class="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link active">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div style="max-width: 800px; margin: 0 auto;">
+
+      <!-- Page Header -->
+      <div style="margin-bottom: 32px; text-align: center;">
+        <div class="hero-pill">
+          <span>📝</span>
+          <span>Official Petition Gateway</span>
+        </div>
+        <h1 style="font-size: 32px; margin-bottom: 8px;">File a Formal Grievance</h1>
+        <p style="color: var(--color-slate-600); font-size: 14px;">
+          Petitions are immediately anchored on an immutable SHA-256 cryptographic chain.
+          Choose total anonymity or authenticate with student details for academic and fee matters.
+        </p>
+      </div>
+
+      <!-- Main Form Card -->
+      <div class="card">
+        <form id="grievance-form">
+
+          <!-- 1. Privacy Mode Selection -->
+          <div class="form-group">
+            <label class="form-label">1. Choose Petitioner Privacy Mode *</label>
+            <div class="privacy-selector-grid">
+              <!-- Anonymous Option -->
+              <div id="opt-anon" class="privacy-card selected" onclick="setPrivacyMode(true)">
+                <div class="privacy-card-header">
+                  <span style="font-size: 22px;">🥷</span>
+                  <div class="privacy-card-title">True Anonymous Entry</div>
+                </div>
+                <div class="privacy-card-desc">
+                  <strong>Zero PII recorded.</strong> No name, student registration number, or email will be collected. Prevents retaliatory bias for mess hygiene, hostel maintenance, and ragging reports.
+                </div>
+              </div>
+
+              <!-- Named Option -->
+              <div id="opt-named" class="privacy-card" onclick="setPrivacyMode(false)">
+                <div class="privacy-card-header">
+                  <span style="font-size: 22px;">🎓</span>
+                  <div class="privacy-card-title">Named Student Registration</div>
+                </div>
+                <div class="privacy-card-desc">
+                  Required if your grievance involves personal examination marks, re-evaluations, library dues, scholarship disbursement, or hostel deposit refunds.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Named Student Fields (Hidden when Anonymous) -->
+          <div id="named-student-fields" style="display: none; background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 18px; margin-bottom: 24px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--color-slate-800); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <span>👤</span> Petitioner Identification
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+              <div>
+                <label class="form-label" for="student-name">Full Name *</label>
+                <input type="text" id="student-name" class="form-input" placeholder="e.g. Rahul Sharma">
+              </div>
+              <div>
+                <label class="form-label" for="student-regno">MNNIT Registration / Roll No *</label>
+                <input type="text" id="student-regno" class="form-input" placeholder="e.g. 20244109">
+              </div>
+              <div>
+                <label class="form-label" for="student-email">Official GSuite Student Email *</label>
+                <input type="email" id="student-email" class="form-input" placeholder="e.g. rahul.20244109@mnnit.ac.in">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Grievance Category -->
+          <div class="form-group">
+            <label class="form-label" for="complaint-category">2. Grievance Department & Category *</label>
+            <select id="complaint-category" class="form-select" onchange="handleCategoryChange()">
+              <option value="Hostel & Accommodation">Hostel & Accommodation (Wardens & Caretakers)</option>
+              <option value="Mess & Food Quality">Mess & Food Quality (Mess Committee & DSW)</option>
+              <option value="Academics & Examination">Academics & Examination (Dean Academics / ERP)</option>
+              <option value="Campus Infrastructure">Campus Infrastructure (Civil & Electrical Maintenance)</option>
+              <option value="Internet & LAN">Internet & LAN (Computer Center NOC)</option>
+              <option value="Sanitation & Hygiene">Sanitation & Hygiene (Sanitation Inspector Office)</option>
+              <option value="Proctorial & Safety">Proctorial & Safety (Chief Proctorial Board)</option>
+              <option value="Administration & Fees">Administration & Fees (Registrar / Accounts Section)</option>
+            </select>
+            <span class="form-hint" id="dept-hint">
+              Default recipient: Chief Warden Office / Hostel Maintenance
+            </span>
+          </div>
+
+          <!-- 3. Subject with Live Duplicate Warning -->
+          <div class="form-group">
+            <label class="form-label" for="complaint-subject">3. Petition Subject / Title *</label>
+            <input type="text" id="complaint-subject" class="form-input" placeholder="Concise statement of the issue (e.g. Geyser malfunctioning in Raman Hostel 2nd floor)" required oninput="handleSubjectInput()">
+            <span class="form-hint">Be clear and specific. Our algorithm runs real-time duplicate screening to avoid split grievances.</span>
+          </div>
+
+          <!-- Duplicate Warning Container (Dynamic) -->
+          <div id="duplicate-warning" class="duplicate-warning-box" style="display: none;">
+            <div class="duplicate-warning-icon">⚠️</div>
+            <div style="flex: 1;">
+              <div class="duplicate-warning-title">Similar Active Petitions Detected!</div>
+              <p style="font-size: 12px; color: #78350f;">
+                Other students have already filed open grievances with similar keywords in this category. You may still submit, but reviewing existing petitions prevents duplicate backlogs:
+              </p>
+              <ul id="duplicate-list" class="duplicate-warning-list"></ul>
+            </div>
+          </div>
+
+          <!-- 4. Detailed Description -->
+          <div class="form-group">
+            <label class="form-label" for="complaint-desc">4. Detailed Description & Evidence *</label>
+            <textarea id="complaint-desc" class="form-textarea" rows="4" placeholder="Detail the exact problem: dates, specific location, contractor or officer involved, previous verbal complaints, and impact on students..." required></textarea>
+          </div>
+
+          <!-- 5. Specific Campus Location -->
+          <div class="form-group">
+            <label class="form-label" for="complaint-location">5. Specific Campus Location</label>
+            <input type="text" id="complaint-location" class="form-input" placeholder="e.g. Raman Hostel, Block C, Room 214 or Tilak Dining Hall">
+          </div>
+
+          <!-- 6. Priority Level with SLA Commitments -->
+          <div class="form-group">
+            <label class="form-label">6. Priority Level & Binding Institutional SLA *</label>
+            <div class="priority-grid">
+              <div id="p-urgent" class="priority-option-card" onclick="setPriority('Urgent')">
+                <div class="p-title">
+                  <span style="color: var(--color-rose-600);">🚨 Urgent</span>
+                  <span class="p-sla">24 Hours</span>
+                </div>
+                <div class="p-desc">Safety hazard, extreme hygiene emergency, or active harassment.</div>
+              </div>
+
+              <div id="p-high" class="priority-option-card" onclick="setPriority('High')">
+                <div class="p-title">
+                  <span style="color: var(--color-amber-600);">⚡ High</span>
+                  <span class="p-sla">48 Hours</span>
+                </div>
+                <div class="p-desc">Major academic blockage, water/electricity failure, or fee ERP glitch.</div>
+              </div>
+
+              <div id="p-medium" class="priority-option-card selected" onclick="setPriority('Medium')">
+                <div class="p-title">
+                  <span style="color: var(--color-primary);">⏳ Medium</span>
+                  <span class="p-sla">72 Hours</span>
+                </div>
+                <div class="p-desc">Standard routine maintenance, Wi-Fi latency, or library resources.</div>
+              </div>
+
+              <div id="p-low" class="priority-option-card" onclick="setPriority('Low')">
+                <div class="p-title">
+                  <span style="color: var(--color-slate-600);">📋 Low</span>
+                  <span class="p-sla">120 Hours (5d)</span>
+                </div>
+                <div class="p-desc">General campus suggestion, non-urgent infrastructure upgrade.</div>
+              </div>
+            </div>
+            <input type="hidden" id="selected-priority" value="Medium">
+          </div>
+
+          <!-- 7. Simulated Evidence Attachment -->
+          <div class="form-group">
+            <label class="form-label" for="attachment-file">7. Photographic Evidence / Supporting Document (Optional)</label>
+            <input type="file" id="attachment-file" class="form-input" accept="image/*,.pdf" onchange="handleFileSelected(this)">
+            <span class="form-hint" id="attachment-status">Accepted formats: JPG, PNG, PDF. (Stored simulated attachment tag on Genesis Block).</span>
+          </div>
+
+          <!-- Genesis Cryptographic Seal Notice -->
+          <div style="background: #0f172a; color: #94a3b8; border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; font-size: 12px; font-family: var(--font-mono); display: flex; align-items: center; gap: 12px;">
+            <div style="font-size: 24px;">⛓️</div>
+            <div>
+              <strong style="color: #38bdf8;">Client-Side Cryptographic Genesis Seal:</strong>
+              <p style="margin-top: 4px; color: #cbd5e1;">
+                Upon clicking submit, your browser will immediately execute a pure SHA-256 hash across your petition parameters, creating <strong>Block #1</strong> with previous hash <code style="color: #a7f3d0;">00000000...0000</code>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div style="display: flex; justify-content: flex-end; gap: 12px;">
+            <a href="index.html" class="btn btn-secondary">Cancel</a>
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-lg">
+              <span>🔒 Mint Genesis Block & Submit Petition</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Success Confirmation Modal -->
+  <div id="success-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 56px; height: 56px; background: var(--color-emerald-100); color: var(--color-emerald-600); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 12px auto;">
+          ✓
+        </div>
+        <h2 style="font-size: 22px; color: var(--color-slate-900); margin-bottom: 6px;">Petition Minted & Registered!</h2>
+        <p style="font-size: 13px; color: var(--color-slate-600);">
+          Your grievance has been cryptographically sealed and dispatched to MNNIT administrative authorities.
+        </p>
+      </div>
+
+      <!-- Ticket & Key Details Box -->
+      <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+        <div style="margin-bottom: 12px;">
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-slate-500); display: block; margin-bottom: 4px;">Public Ticket ID</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid var(--color-slate-300); border-radius: var(--radius-sm); padding: 8px 12px;">
+            <code id="modal-ticket-id" style="font-size: 16px; font-weight: 700; color: var(--color-primary); font-family: var(--font-mono);">--</code>
+            <button class="btn btn-sm btn-secondary" onclick="copyModalField('modal-ticket-id', 'Ticket ID copied!')">Copy</button>
+          </div>
+        </div>
+
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-rose-600); display: block; margin-bottom: 4px;">Private Secret Tracking Key (SAVE THIS!)</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid var(--color-slate-300); border-radius: var(--radius-sm); padding: 8px 12px;">
+            <code id="modal-tracking-code" style="font-size: 16px; font-weight: 700; color: var(--color-slate-900); font-family: var(--font-mono);">--</code>
+            <button class="btn btn-sm btn-secondary" onclick="copyModalField('modal-tracking-code', 'Private Key copied!')">Copy</button>
+          </div>
+        </div>
+        <span style="font-size: 11px; color: var(--color-slate-500); margin-top: 8px; display: block;">
+          ⚠️ As an anonymous petitioner, this private key is your ONLY method to verify updates and view sealed officer notes. Do not lose it!
+        </span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a id="modal-track-link" href="#" class="btn btn-primary btn-lg" style="width: 100%; text-align: center;">
+          🔍 Open Live Tracking & Ledger Now →
+        </a>
+        <button class="btn btn-secondary" onclick="closeSuccessModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="brand-link" style="margin-bottom: 12px;">
+          <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 16px;">🛡️</div>
+          <div class="brand-title" style="font-size: 17px;">Raiso<span>Voice</span></div>
+        </div>
+        <p style="font-size: 13px; color: var(--color-slate-500);">
+          Corrupt-proof student grievance management platform for MNNIT Allahabad. Built by Team ByteForge.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Direct Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="track.html">Track Complaint</a></li>
+          <li><a href="dashboard.html">Public Dashboard</a></li>
+          <li><a href="admin.html">Authority Console</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Privacy Guarantee</h4>
+        <p style="font-size: 12px; color: var(--color-slate-500);">
+          Anonymous submissions mathematically sanitize petitioner identity. No IP address, browser fingerprint, or email is stored on the ledger.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Team ByteForge • Webster 2026, MNNIT Allahabad</div>
+      <div>Zero-PII Cryptographic Protocol</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/crypto.js"></script>
+  <script src="js/stateMachine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    let isAnonymous = true;
+    let selectedPriority = 'Medium';
+    let attachedFileName = '';
+    let newlyCreatedComplaint = null;
+
+    function setPrivacyMode(anonymous) {
+      isAnonymous = anonymous;
+      const optAnon = document.getElementById('opt-anon');
+      const optNamed = document.getElementById('opt-named');
+      const namedFields = document.getElementById('named-student-fields');
+
+      if (anonymous) {
+        optAnon.classList.add('selected');
+        optNamed.classList.remove('selected');
+        namedFields.style.display = 'none';
+        document.getElementById('student-name').required = false;
+        document.getElementById('student-regno').required = false;
+        document.getElementById('student-email').required = false;
+      } else {
+        optNamed.classList.add('selected');
+        optAnon.classList.remove('selected');
+        namedFields.style.display = 'block';
+        document.getElementById('student-name').required = true;
+        document.getElementById('student-regno').required = true;
+        document.getElementById('student-email').required = true;
+      }
+    }
+
+    function setPriority(priority) {
+      selectedPriority = priority;
+      document.getElementById('selected-priority').value = priority;
+      ['p-urgent', 'p-high', 'p-medium', 'p-low'].forEach(id => {
+        document.getElementById(id).classList.remove('selected');
+      });
+
+      const map = { Urgent: 'p-urgent', High: 'p-high', Medium: 'p-medium', Low: 'p-low' };
+      if (map[priority]) {
+        document.getElementById(map[priority]).classList.add('selected');
+      }
+    }
+
+    function handleCategoryChange() {
+      const cat = document.getElementById('complaint-category').value;
+      const dept = window.StateMachine.getDefaultDepartment(cat);
+      document.getElementById('dept-hint').textContent = `Default recipient: ${dept}`;
+      handleSubjectInput();
+    }
+
+    function handleSubjectInput() {
+      const cat = document.getElementById('complaint-category').value;
+      const subject = document.getElementById('complaint-subject').value;
+      const warningBox = document.getElementById('duplicate-warning');
+      const listEl = document.getElementById('duplicate-list');
+
+      if (subject.trim().length >= 4) {
+        const matches = window.ComplaintStorage.findSimilarComplaints(cat, subject);
+        if (matches.length > 0) {
+          warningBox.style.display = 'flex';
+          listEl.innerHTML = '';
+          matches.slice(0, 3).forEach(m => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${m.id}:</strong> ${window.CommonUI.escapeHtml(m.subject)} (${m.status} - ${m.department})`;
+            listEl.appendChild(li);
+          });
+          return;
+        }
+      }
+      warningBox.style.display = 'none';
+    }
+
+    function handleFileSelected(input) {
+      if (input.files && input.files[0]) {
+        attachedFileName = input.files[0].name;
+        document.getElementById('attachment-status').textContent = `Selected: ${attachedFileName} (Ready to tag on Genesis Block)`;
+      } else {
+        attachedFileName = '';
+        document.getElementById('attachment-status').textContent = 'Accepted formats: JPG, PNG, PDF.';
+      }
+    }
+
+    function copyModalField(elementId, msg) {
+      const text = document.getElementById(elementId).textContent;
+      window.CommonUI.copyToClipboard(text, msg);
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.remove('is-open');
+    }
+
+    // Form submission
+    document.getElementById('grievance-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const category = document.getElementById('complaint-category').value;
+      const subject = document.getElementById('complaint-subject').value.trim();
+      const description = document.getElementById('complaint-desc').value.trim();
+      const location = document.getElementById('complaint-location').value.trim();
+
+      let studentName, studentRegNo, studentEmail;
+      if (!isAnonymous) {
+        studentName = document.getElementById('student-name').value.trim();
+        studentRegNo = document.getElementById('student-regno').value.trim();
+        studentEmail = document.getElementById('student-email').value.trim();
+
+        if (!studentName || !studentRegNo || !studentEmail) {
+          window.CommonUI.showToast('Please fill out all student identification fields.', 'warning');
+          return;
+        }
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳ Computing SHA-256 Genesis Block...</span>';
+
+      setTimeout(() => {
+        const newTicket = window.ComplaintStorage.createComplaint({
+          category,
+          subject,
+          description,
+          location: location || undefined,
+          priority: selectedPriority,
+          isAnonymous,
+          studentName,
+          studentRegNo,
+          studentEmail,
+          attachmentName: attachedFileName || undefined,
+        });
+
+        newlyCreatedComplaint = newTicket;
+
+        // Populate Success Modal
+        document.getElementById('modal-ticket-id').textContent = newTicket.id;
+        document.getElementById('modal-tracking-code').textContent = newTicket.trackingCode;
+        document.getElementById('modal-track-link').href = `track.html?id=${encodeURIComponent(newTicket.id)}&code=${encodeURIComponent(newTicket.trackingCode)}`;
+
+        document.getElementById('success-modal').classList.add('is-open');
+
+        // Reset submit button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>🔒 Mint Genesis Block & Submit Petition</span>';
+      }, 400);
+    });
+  </script>
+</body>
+</html>

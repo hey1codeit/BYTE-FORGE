@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authority Redressal Console — RaisoVoice | MNNIT Allahabad</title>
+    <meta name="description"
+        content="Protected administrative console for MNNIT Wardens, Deans, and Department Heads to inspect, triage, and cryptographically seal student grievances.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 18c-3.75-1.02-7-5.08-7-9.3V8.3l7-3.89 7 3.89v2.4c0 4.22-3.25 8.28-7 9.3z'/></svg>">
+    <style>
+        /* Scoped Styles for Authority Portal matching Next.js admin page */
+        .admin-auth-container {
+            max-width: 480px;
+            margin: 48px auto;
+        }
+
+        .admin-auth-card {
+            background: #ffffff;
+            border: 1px solid
+             var(--color-slate-200);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-lock-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px auto;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+        }
+
+        .admin-login-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .admin-login-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-slate-900);
+            margin-bottom: 6px;
+        }
+
+        .admin-login-header p {
+            font-size: 13px;
+            color: var(--color-slate-500);
+            line-height: 1.5;
+        }
+
+        .auth-alert-box {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            font-size: 13px;
+            color: #9f1239;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .admin-security-card {
+            margin-top: 24px;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--color-slate-200);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .admin-security-card .sec-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-slate-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .admin-security-card .sec-desc {
+            font-size: 12px;
+            color: var(--color-slate-500);
+            line-height: 1.5;
+            margin: 0 0 12px 0;
+        }
+
+        .admin-security-pills {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .admin-security-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-slate-700);
+            background: #ffffff;
+            border: 1px solid var(--color-slate-200);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .admin-console-header {
+            background: #ffffff;
+            border: 1px solid var(--color-slate-200);
+            border-radius: var(--radius-xl);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-console-header .left-col {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .admin-header-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .admin-console-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-slate-900);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-active-badge {
+            font-size: 11px;
+            background: #d1fae5;
+            color: #065f46;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .system-verify-banner {
+            padding: 14px 18px;
+            border-radius: var(--radius-lg);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .system-verify-banner.success {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+
+        .system-verify-banner.danger {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #9f1239;
+        }
+
+        .admin-filter-bar {
+            background: #ffffff;
+            border: 1px solid var(--color-slate-200);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-filter-bar .search-box {
+            position: relative;
+            min-width: 280px;
+            flex: 1;
+        }
+
+        .admin-filter-bar .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 34px;
+            border: 1px solid var(--color-slate-300);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+        }
+
+        .admin-filter-bar .search-box .icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-slate-400);
+        }
+
+        .admin-selected-panel {
+            background: #ffffff;
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .panel-two-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .panel-card-inner {
+            background: var(--color-slate-50);
+            border: 1px solid var(--color-slate-200);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            font-size: 13px;
+        }
+
+        .panel-card-inner .card-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .admin-action-form {
+            background: #f0f7ff;
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .admin-action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        /* Timeline styles matching Next.js HashAuditViewer */
+        .timeline-wrapper {
+            position: relative;
+            border-left: 2px solid #bfdbfe;
+            margin-left: 20px;
+            padding-left: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .timeline-node {
+            position: relative;
+        }
+
+        .timeline-node-circle {
+            position: absolute;
+            left: -37px;
+            top: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-node.genesis .timeline-node-circle {
+            background: var(--color-primary);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .timeline-node.latest .timeline-node-circle {
+            background: var(--color-emerald-600);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .timeline-block-card {
+            background: #ffffff;
+            border: 1px solid var(--color-slate-200);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-size: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .timeline-block-card:hover {
+            border-color: var(--color-slate-400);
+        }
+
+        .timeline-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--color-slate-200);
+            margin-bottom: 10px;
+        }
+
+        .timeline-block-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--color-slate-900);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-hash-box {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-slate-200);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .timeline-hash-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+        }
+
+        .timeline-hash-label {
+            color: var(--color-slate-400);
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .timeline-hash-value {
+            color: var(--color-slate-700);
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .timeline-hash-value.highlight {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-notice-bar">
+        <div class="top-notice-inner">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="hackathon-badge">Webster 2026</span>
+                <span>Team <strong>ByteForge</strong> (ID: 198) • Protected Administrative Authority Redressal
+                    Console</span>
+            </div>
+            <div>
+                <a href="dashboard.html" class="top-notice-link">Public Dashboard →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="navbar-inner">
+            <a href="index.html" class="brand-link">
+                <div class="brand-icon-box">🛡️</div>
+                <div class="brand-text">
+                    <div class="brand-title">Raiso<span>Voice</span></div>
+                    <div class="brand-subtitle">The Vishanti Petition • MNNIT Allahabad</div>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+                <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+                <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+                <li><a href="admin.html" class="nav-link active">Authority Portal</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="submit.html" class="btn btn-primary btn-sm">
+                    <span>+ File Petition</span>
+                </a>
+                <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+                    ☰
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-nav-menu" class="mobile-nav-drawer">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+                <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+                <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+                <li><a href="admin.html" class="nav-link active">Authority Portal</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ========================================================
+         VIEW 1: AUTHENTICATION SCREEN (Shown when logged out)
+         ======================================================== -->
+        <div id="view-login" class="admin-auth-container">
+            <div class="admin-auth-card">
+                <div class="admin-login-header">
+                    <div class="admin-lock-icon">🔒</div>
+                    <h1>Authority Portal Access</h1>
+                    <p>Protected administrative gateway for MNNIT Wardens, Deans, and Department Heads.</p>
+                    <div
+                        style="margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; background: #fef2f2; border: 1px solid #fee2e2; padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; color: #991b1b; font-weight: 600;">
+                        <span>🛡️ Strict Admin Access: Only Registered Officials Can Sign In</span>
+                    </div>
+                </div>
+
+                <!-- Error Alert -->
+                <div id="login-error-alert" style="display: none;" class="auth-alert-box">
+                    <span style="font-size: 16px;">⚠️</span>
+                    <span id="login-error-msg">Access Denied: Unrecognized administrator ID or email address.</span>
+                </div>
+
+                <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Official Administrator ID or Email</label>
+                        <input type="text" id="login-email" class="form-input" required
+                            placeholder="Enter Administrator ID or Official Email" autocomplete="username" />
+                    </div>
+
+                    <div class="form-group">
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password / Passcode</label>
+                            <button type="button" id="toggle-pw-btn" onclick="togglePasswordVisibility()"
+                                style="background: none; border: none; color: var(--color-primary); font-size: 11px; cursor: pointer; font-weight: 600;">Show</button>
+                        </div>
+                        <input type="password" id="login-password" class="form-input" required
+                            placeholder="••••••••••••" autocomplete="current-password" />
+                    </div>
+
+                    <button type="submit" id="login-submit-btn" class="btn btn-primary btn-lg"
+                        style="width: 100%; justify-content: center;">
+                        <span>Sign In to Admin Console 🔒</span>
+                    </button>
+                </form>
+
+                <!-- Security Verification Notice -->
+                <div class="admin-security-card">
+                    <div class="sec-title">
+                        <span>🛡️</span> Cryptographic Authorization Required
+                    </div>
+                    <p class="sec-desc">
+                        This gateway is restricted strictly to authorized MNNIT administrative authorities (Deans, Chief Warden, Proctorial Board). Credentials are cryptographically salted and verified using SHA-256 against the SQLite database.
+                    </p>
+                    <div class="admin-security-pills">
+                        <span class="admin-security-pill">🔒 SHA-256 Salted Passwords</span>
+                        <span class="admin-security-pill">📜 Zero-Tamper Audit Ledger</span>
+                        <span class="admin-security-pill">🏛️ MNNIT Allahabad</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================================
+         VIEW 2: AUTHENTICATED ADMIN CONSOLE
+         ======================================================== -->
+        <div id="view-console" style="display: none;">
+
+            <!-- Admin Top Header -->
+            <div class="admin-console-header">
+                <div class="left-col">
+                    <div class="admin-header-icon">🏛️</div>
+                    <div>
+                        <h1>
+                            <span>Authority Redressal Console</span>
+                            <span class="admin-active-badge">Active Session</span>
+                        </h1>
+                        <p style="font-size: 12px; color: var(--color-slate-500); margin: 0;">
+                            Logged in as <strong id="header-admin-role">Chief Proctor & DSW</strong> (<span
+                                id="header-admin-email">admin@mnnit.ac.in</span>)
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="handleVerifyAllLedgers()">
+                        <span>🛡️ Verify All Chains</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="handleResetDemoData()">
+                        <span>🔄 Reset Demo Data</span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="handleLogout()">
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- System-wide verification banner -->
+            <div id="system-verify-banner" style="display: none;" class="system-verify-banner success">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;" id="verify-banner-icon">✓</span>
+                    <div>
+                        <strong id="verify-banner-title">All Campus Ledgers Untampered & Verified</strong>
+                        <p style="margin: 2px 0 0 0; font-size: 12px;" id="verify-banner-desc">
+                            Verified 5 complaints across cryptographically sealed blocks. Zero hash collisions.
+                        </p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-sm"
+                    onclick="document.getElementById('system-verify-banner').style.display='none'">
+                    Dismiss
+                </button>
+            </div>
+
+            <!-- Overview Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Registered</span>
+                        <div class="stat-icon bg-blue">📋</div>
+                    </div>
+                    <div class="stat-value" id="kpi-admin-total">0</div>
+                    <div class="stat-desc">Complaints in database</div>
+                </div>
+
+                <div class="stat-card stat-amber">
+                    <div class="stat-top">
+                        <span class="stat-label">Pending Triage</span>
+                        <div class="stat-icon bg-amber">⏳</div>
+                    </div>
+                    <div class="stat-value" id="kpi-admin-pending">0</div>
+                    <div class="stat-desc">Filed & Assigned</div>
+                </div>
+
+                <div class="stat-card stat-rose">
+                    <div class="stat-top">
+                        <span class="stat-label">Escalated</span>
+                        <div class="stat-icon bg-rose">🚨</div>
+                    </div>
+                    <div class="stat-value" id="kpi-admin-escalated">0</div>
+                    <div class="stat-desc">SLA breached</div>
+                </div>
+
+                <div class="stat-card stat-emerald">
+                    <div class="stat-top">
+                        <span class="stat-label">Resolved</span>
+                        <div class="stat-icon bg-emerald">✅</div>
+                    </div>
+                    <div class="stat-value" id="kpi-admin-resolved">0</div>
+                    <div class="stat-desc">Cryptographically closed</div>
+                </div>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="admin-filter-bar">
+                <div class="search-box">
+                    <span class="icon">🔍</span>
+                    <input type="text" id="admin-search-input" placeholder="Search ticket ID, subject, dept..."
+                        oninput="applyFilters()" />
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="color: var(--color-slate-600); font-weight: 500;">Status:</span>
+                        <select id="admin-status-filter" class="form-select" style="padding: 6px 10px; font-size: 12px;"
+                            onchange="applyFilters()">
+                            <option value="All">All Statuses</option>
+                            <option value="Filed">Filed</option>
+                            <option value="Assigned">Assigned</option>
+                            <option value="In Review">In Review</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Escalated">Escalated</option>
+                        </select>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="color: var(--color-slate-600); font-weight: 500;">Priority:</span>
+                        <select id="admin-priority-filter" class="form-select"
+                            style="padding: 6px 10px; font-size: 12px;" onchange="applyFilters()">
+                            <option value="All">All Priorities</option>
+                            <option value="Urgent">Urgent</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+
+                    <span style="color: var(--color-slate-400); font-weight: 500;">
+                        Showing <span id="admin-filtered-count">0</span> of <span id="admin-total-count">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Main Complaints Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Category & Subject</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Department & Officer</th>
+                            <th>SLA Deadline</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <!-- Rendered by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Selected Complaint Action Panel / Drawer -->
+            <div id="admin-action-panel" style="display: none;" class="admin-selected-panel">
+                <div
+                    style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--color-slate-200); margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span class="ticket-id-cell" style="font-size: 20px;"
+                                id="panel-ticket-id">RV-2026-1001</span>
+                            <span id="panel-status-badge"></span>
+                            <span id="panel-priority-badge"></span>
+                        </div>
+                        <h2 style="font-size: 18px; font-weight: 700; color: var(--color-slate-900);"
+                            id="panel-subject">Subject</h2>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button type="button" id="panel-escalate-btn" class="btn btn-danger btn-sm"
+                            onclick="handleAutoEscalateSelected()">
+                            <span>⚡ Auto-Escalate to DSW</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="closeActionPanel()">
+                            Close Panel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description & Metadata Cards -->
+                <div class="panel-two-col">
+                    <div class="panel-card-inner">
+                        <span class="card-label">Student Complaint Statement</span>
+                        <p id="panel-description"
+                            style="color: var(--color-slate-700); line-height: 1.6; white-space: pre-line; margin-bottom: 10px;">
+                            --</p>
+                        <div style="font-size: 12px; color: var(--color-slate-500);">
+                            📍 Location: <strong id="panel-location"
+                                style="color: var(--color-slate-800);">Campus</strong>
+                        </div>
+                    </div>
+
+                    <div class="panel-card-inner">
+                        <span class="card-label">Petitioner Details</span>
+                        <div id="panel-petitioner-details" style="line-height: 1.6; color: var(--color-slate-700);">
+                            --
+                        </div>
+                        <div
+                            style="margin-top: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--color-slate-500);">
+                            • Secret Tracking Key: <code id="panel-tracking-key"
+                                style="color: var(--color-primary); font-weight: 700;">--</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Update Action Form -->
+                <form class="admin-action-form" onsubmit="handleUpdateComplaint(event)">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                        <span style="font-size: 18px;">🛡️</span>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--color-slate-900);">
+                            Update Status & Record Cryptographic Audit Block
+                        </h3>
+                    </div>
+
+                    <div class="admin-action-grid">
+                        <div>
+                            <label class="form-label" for="action-target-status">Target Status *</label>
+                            <select id="action-target-status" class="form-select font-semibold">
+                                <!-- Populated according to strict State Machine -->
+                            </select>
+                            <span class="form-hint">Strict progression enforced.</span>
+                        </div>
+
+                        <div>
+                            <label class="form-label" for="action-department">Assigned Department</label>
+                            <select id="action-department" class="form-select">
+                                <!-- Departments -->
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label" for="action-officer">Assigned Officer Name</label>
+                            <input type="text" id="action-officer" class="form-input"
+                                placeholder="e.g. Er. S. Mishra / Dr. Srivastava" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <label class="form-label" for="action-notes">Official Action / Audit Note * (Appended to SHA-256
+                            Ledger)</label>
+                        <textarea id="action-notes" class="form-textarea" required rows="3"
+                            placeholder="Detail the physical action taken, materials dispatched, vendor summoned, or inspection results..."></textarea>
+                    </div>
+
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div style="font-size: 12px; color: var(--color-slate-500);">
+                            Signing as: <strong id="action-signing-name">Authority Admin</strong>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>🛡️ Seal Block & Update Complaint</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Hash Audit Viewer (Matching Next.js component) -->
+                <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 0;">
+                    <div
+                        style="background: var(--color-slate-50); border-bottom: 1px solid var(--color-slate-200); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 16px;">🔑</span>
+                                <h3 style="font-size: 16px; font-weight: 700; color: var(--color-slate-900);">
+                                    Cryptographic Audit Chain (SHA-256)
+                                </h3>
+                                <span id="panel-block-count-badge"
+                                    style="font-size: 11px; background: var(--color-slate-200); color: var(--color-slate-700); padding: 2px 8px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-weight: 700;">
+                                    0 Blocks Linked
+                                </span>
+                            </div>
+                            <p style="font-size: 12px; color: var(--color-slate-500); margin: 4px 0 0 0;">
+                                Every update is mathematically chained using SHA-256. Any database modification breaks
+                                the chain signature.
+                            </p>
+                        </div>
+
+                        <button type="button" class="btn btn-primary btn-sm" onclick="handleVerifyCurrentChain()">
+                            <span>🛡️ Verify Chain Integrity</span>
+                        </button>
+                    </div>
+
+                    <!-- Chain Verification Alert in Viewer -->
+                    <div id="viewer-verify-alert" style="display: none; padding: 14px 20px; font-size: 12px;"></div>
+
+                    <!-- Chain Timeline -->
+                    <div style="padding: 24px;">
+                        <div id="timeline-container" class="timeline-wrapper"></div>
+                    </div>
+
+                    <!-- Judges Live Test Tool (Tamper Simulation) -->
+                    <div
+                        style="background: var(--color-slate-100); border-top: 1px solid var(--color-slate-200); padding: 14px 20px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 16px;">⚠️</span>
+                            <div>
+                                <strong style="color: var(--color-slate-800);">Judges Live Test Tool:</strong>
+                                <span style="color: var(--color-slate-600);">Test tamper resistance by simulating an
+                                    unauthorized database edit.</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                style="background: #fef3c7; border-color: #fde68a; color: #92400e;"
+                                onclick="simulateTamperOnCurrentComplaint()">
+                                Simulate Rogue DB Edit
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                onclick="restoreLedgerOnCurrentComplaint()">
+                                Reset Ledger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="brand-link" style="margin-bottom: 12px;">
+                    <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 16px;">🛡️</div>
+                    <div class="brand-title" style="font-size: 17px;">Raiso<span>Voice</span></div>
+                </div>
+                <p style="font-size: 13px; color: var(--color-slate-500);">
+                    Corrupt-proof student grievance management platform for MNNIT Allahabad. Built by Team ByteForge.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Authority Portal Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="submit.html">File Grievance</a></li>
+                    <li><a href="track.html">Live Tracking</a></li>
+                    <li><a href="dashboard.html">Public Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Open Governance Standard</h4>
+                <p style="font-size: 12px; color: var(--color-slate-500);">
+                    SHA-256 cryptographic chain commitments guarantee that administrative records cannot be modified
+                    without detection.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Team ByteForge • Webster 2026, MNNIT Allahabad</div>
+            <div>Zero-Tamper Cryptographic Audit Protocol</div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/crypto.js"></script>
+    <script src="js/stateMachine.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/common.js"></script>
+
+    <script>
+        let currentAdmin = null;
+        let complaints = [];
+        let selectedComplaint = null;
+
+        // Toggle password view
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('login-password');
+            const toggleBtn = document.getElementById('toggle-pw-btn');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                toggleBtn.textContent = 'Hide';
+            } else {
+                pwInput.type = 'password';
+                toggleBtn.textContent = 'Show';
+            }
+        }
+
+        // On DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            populateDepartments();
+            checkExistingSession();
+        });
+
+        function getApiUrl(endpoint) {
+            if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) return endpoint;
+            const clean = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+            if (typeof window !== 'undefined' && window.location.protocol.startsWith('http') && window.location.port === '3000') {
+                return clean;
+            }
+            return 'http://localhost:3000' + clean;
+        }
+
+        function populateDepartments() {
+            const depts = window.StateMachine && window.StateMachine.DEPARTMENTS ? window.StateMachine.DEPARTMENTS : [
+                'Chief Warden Office / Hostel Maintenance',
+                'Mess Management Committee & DSW',
+                'Dean Academics / Examination Section',
+                'Estate & Civil Maintenance Cell',
+                'Computer Center (CC) & Network Operations',
+                'Chief Sanitation Inspector Office',
+                'Chief Proctorial Board & Security',
+                'Registrar Office / Accounts Section',
+            ];
+
+            const select = document.getElementById('action-department');
+            if (select) {
+                select.innerHTML = '';
+                depts.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d;
+                    opt.textContent = d;
+                    select.appendChild(opt);
+                });
+            }
+        }
+
+        // Check if session exists in sessionStorage
+        async function checkExistingSession() {
+            const token = sessionStorage.getItem('raisovoice_admin_token');
+            const userRaw = sessionStorage.getItem('raisovoice_admin_user');
+
+            if (token && userRaw) {
+                try {
+                    // Verify session with server if online
+                    const verifyRes = await fetch(getApiUrl('/api/auth/verify'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }).catch(() => null);
+
+                    if (verifyRes && verifyRes.ok) {
+                        const data = await verifyRes.json();
+                        if (data.valid && data.user) {
+                            setLoggedInState(data.user);
+                            return;
+                        }
+                    } else if (!verifyRes) {
+                        // Offline resilience: restore cached user session
+                        const user = JSON.parse(userRaw);
+                        if (user && user.id) {
+                            setLoggedInState(user);
+                            return;
+                        }
+                    }
+                } catch (e) { }
+            }
+
+            setLoggedOutState();
+        }
+
+        // Login Form Submit Handler
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            executeAdminLogin(identifier, password);
+        }
+
+        const DEMO_OFFLINE_PROFILES = {
+            'admin': { id: 'admin', name: 'Administrative Triage Cell', role: 'Central Intake Officer', department: 'Central Triage Cell', email: 'admin@mnnit.ac.in' },
+            'administrator': { id: 'admin', name: 'Administrative Triage Cell', role: 'Central Intake Officer', department: 'Central Triage Cell', email: 'admin@mnnit.ac.in' },
+            'dean_dsw': { id: 'dean_dsw', name: 'Prof. Rajeev Tripathi', role: 'Dean of Student Welfare (DSW)', department: 'Dean of Student Welfare (DSW) & Mess Committee', email: 'dean.dsw@mnnit.ac.in' },
+            'chief_warden': { id: 'chief_warden', name: 'Dr. R. K. Srivastava', role: 'Chief Warden (Hostel Affairs)', department: 'Chief Warden Office / Hostel Maintenance', email: 'warden.chief@mnnit.ac.in' },
+            'chief_proctor': { id: 'chief_proctor', name: 'Dr. S. K. Duggal', role: 'Chief Proctor', department: 'Chief Proctorial Board & Security', email: 'proctor@mnnit.ac.in' }
+        };
+
+        async function executeAdminLogin(identifier, password) {
+            const errorBox = document.getElementById('login-error-alert');
+            const errorMsg = document.getElementById('login-error-msg');
+            const submitBtn = document.getElementById('login-submit-btn');
+
+            if (!identifier || !password) {
+                errorMsg.textContent = 'Both Administrator ID/Email and password are required.';
+                errorBox.style.display = 'flex';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Verifying Admin Authority... ⏳</span>';
+            errorBox.style.display = 'none';
+
+            try {
+                // Server-side SQL Authentication with Salted SHA-256 Hashes
+                const targetUrl = getApiUrl('/api/auth/login');
+                const res = await fetch(targetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: identifier, password: password }),
+                }).catch(() => null);
+
+                if (res && res.ok) {
+                    const data = await res.json().catch(() => null);
+                    if (data && data.success && data.user) {
+                        sessionStorage.setItem('raisovoice_admin_token', data.token);
+                        sessionStorage.setItem('raisovoice_admin_user', JSON.stringify(data.user));
+                        window.CommonUI.showToast(`Signed in as ${data.user.name}`, 'success');
+                        setLoggedInState(data.user);
+                        return;
+                    }
+                }
+
+                if (res && res.status === 401) {
+                    const data = await res.json().catch(() => null);
+                    let msg = (data && data.error) || 'Access Denied: Unrecognized administrator ID or incorrect password.';
+                    if (data && data.hint) {
+                        msg += ' (' + data.hint + ')';
+                    }
+                    errorMsg.textContent = msg;
+                    errorBox.style.display = 'flex';
+                    return;
+                }
+
+                // If backend server could not be reached directly or responded with non-200/non-401 (e.g. 404/405 static server)
+                const cleanId = identifier.toLowerCase().replace(/[\s\-_]+/g, '');
+                const offlineKey = Object.keys(DEMO_OFFLINE_PROFILES).find(k => k.replace(/[\s\-_]+/g, '') === cleanId || DEMO_OFFLINE_PROFILES[k].email.toLowerCase() === identifier.toLowerCase());
+                
+                if (offlineKey) {
+                    const demoUser = DEMO_OFFLINE_PROFILES[offlineKey];
+                    const token = 'offline_session_' + Date.now();
+                    sessionStorage.setItem('raisovoice_admin_token', token);
+                    sessionStorage.setItem('raisovoice_admin_user', JSON.stringify(demoUser));
+                    window.CommonUI.showToast(`Signed in as ${demoUser.name} (Offline Session)`, 'success');
+                    setLoggedInState(demoUser);
+                    return;
+                }
+
+                errorMsg.textContent = 'Authentication service is unreachable. Please ensure the RaisoVoice backend server is running on port 3000 (npm start).';
+                errorBox.style.display = 'flex';
+
+            } catch (err) {
+                errorMsg.textContent = 'Authentication service error: ' + err.message;
+                errorBox.style.display = 'flex';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Sign In to Admin Console 🔒</span>';
+            }
+        }
+
+        function setLoggedInState(user) {
+            currentAdmin = user;
+            document.getElementById('view-login').style.display = 'none';
+            document.getElementById('view-console').style.display = 'block';
+
+            document.getElementById('header-admin-role').textContent = user.role || 'Administrative Authority';
+            document.getElementById('header-admin-email').textContent = user.email || 'admin@mnnit.ac.in';
+            document.getElementById('action-signing-name').textContent = `${user.name} (${user.role})`;
+
+            reloadComplaints();
+        }
+
+        function setLoggedOutState() {
+            currentAdmin = null;
+            document.getElementById('view-login').style.display = 'block';
+            document.getElementById('view-console').style.display = 'none';
+            const errorBox = document.getElementById('login-error-alert');
+            if (errorBox) errorBox.style.display = 'none';
+        }
+
+        function handleLogout() {
+            const token = sessionStorage.getItem('raisovoice_admin_token');
+            if (token) {
+                fetch(getApiUrl('/api/auth/logout'), {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).catch(() => { });
+            }
+            sessionStorage.removeItem('raisovoice_admin_token');
+            sessionStorage.removeItem('raisovoice_admin_user');
+            window.CommonUI.showToast('You have been logged out.', 'info');
+            setLoggedOutState();
+        }
+
+        // Complaints loading and metrics
+        function reloadComplaints() {
+            complaints = window.ComplaintStorage.getStoredComplaints();
+            renderKPIs();
+            applyFilters();
+        }
+
+        function renderKPIs() {
+            const total = complaints.length;
+            const pending = complaints.filter(c => ['Filed', 'Assigned'].includes(c.status)).length;
+            const escalated = complaints.filter(c => c.status === 'Escalated').length;
+            const resolved = complaints.filter(c => c.status === 'Resolved').length;
+
+            document.getElementById('kpi-admin-total').textContent = total;
+            document.getElementById('kpi-admin-pending').textContent = pending;
+            document.getElementById('kpi-admin-escalated').textContent = escalated;
+            document.getElementById('kpi-admin-resolved').textContent = resolved;
+            document.getElementById('admin-total-count').textContent = total;
+        }
+
+        function applyFilters() {
+            const search = (document.getElementById('admin-search-input').value || '').toLowerCase().trim();
+            const statusFilter = document.getElementById('admin-status-filter').value;
+            const priorityFilter = document.getElementById('admin-priority-filter').value;
+
+            const filtered = complaints.filter(c => {
+                if (statusFilter !== 'All' && c.status !== statusFilter) return false;
+                if (priorityFilter !== 'All' && c.priority !== priorityFilter) return false;
+                if (search) {
+                    const matchId = c.id.toLowerCase().includes(search);
+                    const matchSub = (c.subject || '').toLowerCase().includes(search);
+                    const matchDept = (c.department || '').toLowerCase().includes(search);
+                    return matchId || matchSub || matchDept;
+                }
+                return true;
+            });
+
+            document.getElementById('admin-filtered-count').textContent = filtered.length;
+            renderTable(filtered);
+        }
+
+        function renderTable(list) {
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 32px; color: var(--color-slate-500);">No complaints match the selected filter.</td></tr>`;
+                return;
+            }
+
+            list.forEach(c => {
+                const tr = document.createElement('tr');
+                const isSelected = selectedComplaint && selectedComplaint.id === c.id;
+                if (isSelected) tr.className = 'selected-row';
+
+                const sla = window.StateMachine.formatSlaRemaining(c.slaDeadline);
+                let slaText = '';
+                if (c.status === 'Resolved') {
+                    slaText = '<span style="color: var(--color-emerald-700); font-weight: 600;">Resolved</span>';
+                } else if (c.status === 'Escalated' || sla.isOverdue) {
+                    slaText = `<span style="color: var(--color-rose-600); font-weight: 700;">Overdue (${sla.text})</span>`;
+                } else {
+                    slaText = `<span style="font-family: var(--font-mono); color: var(--color-slate-700);">${sla.text}</span>`;
+                }
+
+                tr.innerHTML = `
+          <td class="ticket-id-cell">${c.id}</td>
+          <td>
+            <div style="font-weight: 600; color: var(--color-slate-900);">${window.CommonUI.escapeHtml(c.subject)}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.category} • ${c.location || 'Campus'}</div>
+          </td>
+          <td>${window.CommonUI.getPriorityBadge(c.priority)}</td>
+          <td>${window.CommonUI.getStatusBadge(c.status)}</td>
+          <td style="font-size: 12px;">
+            <div style="font-weight: 500; color: var(--color-slate-800);">${c.department}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.assignedOfficer || 'Unassigned'}</div>
+          </td>
+          <td>${slaText}</td>
+          <td style="text-align: right;">
+            <button class="btn btn-outline btn-sm" onclick="selectComplaint('${c.id}')">
+              Manage →
+            </button>
+          </td>
+        `;
+
+                tr.style.cursor = 'pointer';
+                tr.onclick = (e) => {
+                    if (e.target.tagName !== 'BUTTON') selectComplaint(c.id);
+                };
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Select complaint and open action drawer
+        function selectComplaint(id) {
+            const c = window.ComplaintStorage.getComplaintById(id);
+            if (!c) return;
+
+            selectedComplaint = c;
+            const panel = document.getElementById('admin-action-panel');
+            panel.style.display = 'block';
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Populate header
+            document.getElementById('panel-ticket-id').textContent = c.id;
+            document.getElementById('panel-subject').textContent = c.subject;
+            document.getElementById('panel-status-badge').innerHTML = window.CommonUI.getStatusBadge(c.status);
+            document.getElementById('panel-priority-badge').innerHTML = window.CommonUI.getPriorityBadge(c.priority);
+
+            // Description & location
+            document.getElementById('panel-description').textContent = c.description;
+            document.getElementById('panel-location').textContent = c.location || 'Campus / Hostel';
+
+            // Petitioner Details
+            const petDetails = document.getElementById('panel-petitioner-details');
+            if (c.isAnonymous) {
+                petDetails.innerHTML = `
+          <div style="color: var(--color-emerald-700); font-weight: 700;">
+            • Privacy Mode: True Anonymous (Zero PII Recorded)
+          </div>
+          <div style="font-size: 11px; color: var(--color-slate-500); margin-top: 2px;">
+            Genesis block cryptographically seals student privacy.
+          </div>
+        `;
+            } else {
+                petDetails.innerHTML = `
+          <div>• Privacy Mode: <strong>Named Student</strong></div>
+          <div>• Student Name: <strong>${window.CommonUI.escapeHtml(c.studentName || 'Not Provided')}</strong></div>
+          <div>• Roll Number: <strong>${window.CommonUI.escapeHtml(c.studentRegNo || 'Sealed')}</strong></div>
+          <div>• Email: <strong>${window.CommonUI.escapeHtml(c.studentEmail || 'N/A')}</strong></div>
+        `;
+            }
+
+            document.getElementById('panel-tracking-key').textContent = c.trackingCode;
+
+            // Escalate button
+            const escBtn = document.getElementById('panel-escalate-btn');
+            if (c.status === 'Resolved' || c.status === 'Escalated') {
+                escBtn.style.display = 'none';
+            } else {
+                escBtn.style.display = 'inline-flex';
+            }
+
+            // Populate action form
+            document.getElementById('action-department').value = c.department;
+            document.getElementById('action-officer').value = c.assignedOfficer || '';
+            document.getElementById('action-notes').value = '';
+
+            // Populate Target Status according to strict State Machine
+            const targetSelect = document.getElementById('action-target-status');
+            targetSelect.innerHTML = '';
+
+            const allowed = window.StateMachine && window.StateMachine.ALLOWED_TRANSITIONS
+                ? (window.StateMachine.ALLOWED_TRANSITIONS[c.status] || [])
+                : [];
+
+            // Current status option
+            const currentOpt = document.createElement('option');
+            currentOpt.value = c.status;
+            currentOpt.textContent = `${c.status} (Current)`;
+            targetSelect.appendChild(currentOpt);
+
+            allowed.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = `→ Transition to ${s}`;
+                targetSelect.appendChild(opt);
+            });
+
+            if (allowed.length > 0) {
+                targetSelect.value = allowed[0];
+            }
+
+            // Render Hash Timeline Viewer
+            renderTimelineViewer(c);
+
+            applyFilters();
+        }
+
+        function closeActionPanel() {
+            selectedComplaint = null;
+            document.getElementById('admin-action-panel').style.display = 'none';
+            applyFilters();
+        }
+
+        // Render Timeline in HashAuditViewer
+        function renderTimelineViewer(c) {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            const chain = c.auditChain || [];
+            document.getElementById('panel-block-count-badge').textContent = `${chain.length} ${chain.length === 1 ? 'Block' : 'Blocks'} Linked`;
+
+            const verifyAlert = document.getElementById('viewer-verify-alert');
+            verifyAlert.style.display = 'none';
+
+            chain.forEach((block, idx) => {
+                const isGenesis = idx === 0 || block.blockNumber === 1;
+                const isLatest = idx === chain.length - 1;
+                const bNum = block.blockNumber || (block.blockIndex !== undefined ? block.blockIndex + 1 : idx + 1);
+
+                const node = document.createElement('div');
+                node.className = `timeline-node ${isGenesis ? 'genesis' : ''} ${isLatest ? 'latest' : ''}`;
+
+                const circle = document.createElement('div');
+                circle.className = 'timeline-node-circle';
+                circle.textContent = `#${bNum}`;
+                node.appendChild(circle);
+
+                const card = document.createElement('div');
+                card.className = 'timeline-block-card';
+
+                card.innerHTML = `
+          <div class="timeline-block-header">
+            <div class="timeline-block-title">
+              <span>${window.CommonUI.escapeHtml(block.action)}</span>
+              ${window.CommonUI.getStatusBadge(block.status)}
+              ${isGenesis ? '<span style="font-size: 10px; background: var(--color-primary-light); color: var(--color-primary); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Genesis Block</span>' : ''}
+            </div>
+            <span style="font-size: 11px; color: var(--color-slate-500);">
+              ${window.CommonUI.formatDate(block.timestamp)}
+            </span>
+          </div>
+
+          <div style="display: flex; gap: 12px; font-size: 11px; color: var(--color-slate-600); margin-bottom: 8px; flex-wrap: wrap;">
+            <div>Actor: <strong style="color: var(--color-slate-900);">${window.CommonUI.escapeHtml(block.actor)}</strong> <span style="color: var(--color-slate-500);">(${window.CommonUI.escapeHtml(block.actorRole || block.role || 'Admin')})</span></div>
+            ${block.department ? `<div>Department: <strong style="color: var(--color-slate-700);">${window.CommonUI.escapeHtml(block.department)}</strong></div>` : ''}
+          </div>
+
+          <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-sm); padding: 8px 12px; color: var(--color-slate-800); font-style: italic; margin-bottom: 10px;">
+            "${window.CommonUI.escapeHtml(block.notes)}"
+          </div>
+
+          <div class="timeline-hash-box">
+            <div class="timeline-hash-row">
+              <span class="timeline-hash-label">Prev Hash:</span>
+              <span class="timeline-hash-value" title="${window.CommonUI.escapeHtml(block.previousHash)}">${window.CommonUI.escapeHtml(block.previousHash)}</span>
+            </div>
+            <div class="timeline-hash-row">
+              <span class="timeline-hash-label">Block Hash:</span>
+              <span class="timeline-hash-value highlight" title="${window.CommonUI.escapeHtml(block.currentHash || block.blockHash)}">${window.CommonUI.escapeHtml(block.currentHash || block.blockHash)}</span>
+            </div>
+          </div>
+        `;
+
+                node.appendChild(card);
+                container.appendChild(node);
+            });
+        }
+
+        // Verify current chain
+        function handleVerifyCurrentChain() {
+            if (!selectedComplaint) return;
+            const res = window.CryptoAudit.verifyAuditChain(selectedComplaint.auditChain || []);
+            const alert = document.getElementById('viewer-verify-alert');
+            alert.style.display = 'block';
+
+            if (res.isValid) {
+                alert.style.background = '#ecfdf5';
+                alert.style.color = '#065f46';
+                alert.style.border = '1px solid #a7f3d0';
+                alert.innerHTML = `
+          <strong>✓ Integrity Verified: Tamper-Proof Chain Unbroken</strong>
+          <p style="margin: 2px 0 0 0;">${res.message}</p>
+        `;
+                window.CommonUI.showToast('Chain verified successfully!', 'success');
+            } else {
+                alert.style.background = '#fff1f2';
+                alert.style.color = '#9f1239';
+                alert.style.border = '1px solid #fecdd3';
+                alert.innerHTML = `
+          <strong>🚨 SECURITY ALERT: Ledger Tampering Detected!</strong>
+          <p style="margin: 2px 0 0 0;">${res.message}</p>
+        `;
+                window.CommonUI.showToast('Ledger tampering detected!', 'error');
+            }
+        }
+
+        // Tamper simulation on selected complaint
+        function simulateTamperOnCurrentComplaint() {
+            if (!selectedComplaint) return;
+            window.ComplaintStorage.simulateTamperBlock(
+                selectedComplaint.id,
+                0,
+                'MALICIOUS MODIFICATION: Database record quietly edited to hide maintenance delay.'
+            );
+            selectedComplaint = window.ComplaintStorage.getComplaintById(selectedComplaint.id);
+            renderTimelineViewer(selectedComplaint);
+            handleVerifyCurrentChain();
+        }
+
+        function restoreLedgerOnCurrentComplaint() {
+            if (!selectedComplaint) return;
+            window.ComplaintStorage.resetToSeedComplaints();
+            reloadComplaints();
+            selectedComplaint = window.ComplaintStorage.getComplaintById(selectedComplaint.id);
+            renderTimelineViewer(selectedComplaint);
+            handleVerifyCurrentChain();
+            window.CommonUI.showToast('Ledger reset to authentic untampered demo state.', 'info');
+        }
+
+        // Handle Form Action Update
+        function handleUpdateComplaint(e) {
+            e.preventDefault();
+            if (!selectedComplaint) return;
+
+            const targetStatus = document.getElementById('action-target-status').value;
+            const dept = document.getElementById('action-department').value;
+            const officer = document.getElementById('action-officer').value.trim();
+            const notes = document.getElementById('action-notes').value.trim();
+
+            if (!notes) {
+                window.CommonUI.showToast('Audit Note is required to seal cryptographic block.', 'warning');
+                return;
+            }
+
+            if (targetStatus !== selectedComplaint.status) {
+                const check = window.StateMachine.canTransitionStatus(selectedComplaint.status, targetStatus);
+                if (!check.allowed) {
+                    window.CommonUI.showToast(check.reason, 'error');
+                    return;
+                }
+            }
+
+            const actorName = currentAdmin ? currentAdmin.role : 'Chief Proctor & DSW';
+            const actorRole = 'Admin';
+
+            const updated = window.ComplaintStorage.updateComplaint(
+                selectedComplaint.id,
+                targetStatus,
+                actorName,
+                actorRole,
+                notes,
+                dept,
+                officer || undefined
+            );
+
+            if (updated) {
+                selectedComplaint = updated;
+                window.CommonUI.showToast(`Block #${updated.auditChain.length} locked with SHA-256 signature! Status updated to ${targetStatus}.`, 'success');
+                reloadComplaints();
+                selectComplaint(updated.id);
+            }
+        }
+
+        function handleAutoEscalateSelected() {
+            if (!selectedComplaint) return;
+            const updated = window.ComplaintStorage.triggerAutoEscalate(selectedComplaint.id);
+            if (updated) {
+                selectedComplaint = updated;
+                window.CommonUI.showToast('Complaint escalated directly to Dean of Student Welfare (DSW).', 'success');
+                reloadComplaints();
+                selectComplaint(updated.id);
+            }
+        }
+
+        // Verify all chains system-wide
+        function handleVerifyAllLedgers() {
+            let totalBlocks = 0;
+            let allValid = true;
+
+            complaints.forEach(c => {
+                totalBlocks += (c.auditChain || []).length;
+                const res = window.CryptoAudit.verifyAuditChain(c.auditChain || []);
+                if (!res.isValid) allValid = false;
+            });
+
+            const banner = document.getElementById('system-verify-banner');
+            banner.style.display = 'flex';
+
+            if (allValid) {
+                banner.className = 'system-verify-banner success';
+                document.getElementById('verify-banner-icon').textContent = '✓';
+                document.getElementById('verify-banner-title').textContent = 'All Campus Ledgers Untampered & Verified';
+                document.getElementById('verify-banner-desc').textContent = `Verified ${complaints.length} complaints across ${totalBlocks} cryptographically sealed blocks. Zero hash collisions.`;
+                window.CommonUI.showToast('All campus ledgers verified intact!', 'success');
+            } else {
+                banner.className = 'system-verify-banner danger';
+                document.getElementById('verify-banner-icon').textContent = '🚨';
+                document.getElementById('verify-banner-title').textContent = 'Ledger Integrity Compromised!';
+                document.getElementById('verify-banner-desc').textContent = 'One or more blocks contain modified data without valid cryptographic signatures.';
+                window.CommonUI.showToast('Ledger compromise detected!', 'error');
+            }
+        }
+
+        // Reset all demo data
+        function handleResetDemoData() {
+            if (confirm('Reset all complaints to default clean demo state?')) {
+                const resetList = window.ComplaintStorage.resetToSeedComplaints();
+                complaints = resetList;
+                selectedComplaint = null;
+                document.getElementById('admin-action-panel').style.display = 'none';
+                document.getElementById('system-verify-banner').style.display = 'none';
+                reloadComplaints();
+                window.CommonUI.showToast('Reset to authentic demo complaints.', 'info');
+            }
+        }
+    </script>
+</body>
+
+</html>
