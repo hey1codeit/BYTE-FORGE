@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaisoVoice — The Vishanti Petition | MNNIT Allahabad</title>
+  <meta name="description" content="Corrupt-proof student grievance platform for MNNIT Allahabad. Protected with SHA-256 cryptographic audit chains and automated SLA escalation.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 18c-3.75-1.02-7-5.08-7-9.3V8.3l7-3.89 7 3.89v2.4c0 4.22-3.25 8.28-7 9.3z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="top-notice-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="hackathon-badge">Webster 2026</span>
+        <span>Team <strong>ByteForge</strong> (ID: 198) • Motilal Nehru National Institute of Technology (MNNIT) Allahabad</span>
+      </div>
+      <div>
+        <a href="admin.html" class="top-notice-link">Judges Admin Console Demo →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand-link">
+        <div class="brand-icon-box">🛡️</div>
+        <div class="brand-text">
+          <div class="brand-title">Raiso<span>Voice</span></div>
+          <div class="brand-subtitle">The Vishanti Petition • MNNIT Allahabad</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+
+      <!-- Action Button -->
+      <div class="nav-actions">
+        <a href="submit.html" class="btn btn-primary btn-sm">
+          <span>+ File Petition</span>
+        </a>
+        <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-menu" class="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <span>🛡️</span>
+        <span>The Vishanti Petition — Corrupt-Proof Student Grievance System</span>
+      </div>
+
+      <h1 class="hero-title">
+        Your Voice. Your Rights.<br>
+        <span class="gradient-text">No Silence.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A transparent, student-first grievance system for <strong>MNNIT Allahabad</strong>.
+        File petitions anonymously without fear of academic backlash, track progress with tamper-evident
+        cryptographic audit chains, and watch college authorities resolve issues on deadline.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="submit.html" class="btn btn-primary btn-lg">
+          <span>📝 Submit a Complaint</span>
+          <span>→</span>
+        </a>
+        <a href="track.html" class="btn btn-secondary btn-lg">
+          <span>🔍 Track Complaint</span>
+        </a>
+        <a href="admin.html" class="btn btn-outline btn-lg">
+          <span>🏛️ Authority Portal</span>
+        </a>
+      </div>
+
+      <div class="trust-badges">
+        <div class="trust-item">
+          <span style="color: var(--color-emerald-600);">🔒</span>
+          <span>100% Anonymous Entry</span>
+        </div>
+        <div class="trust-item">
+          <span style="color: var(--color-primary);">⛓️</span>
+          <span>SHA-256 Cryptographic Ledger</span>
+        </div>
+        <div class="trust-item">
+          <span style="color: var(--color-amber-600);">⚡</span>
+          <span>Automated Dean Escalation</span>
+        </div>
+        <div class="trust-item">
+          <span style="color: var(--color-indigo-600);">🎓</span>
+          <span>Zero Retaliation Guarantee</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-Time Institutional KPI Counters -->
+    <div class="stats-grid">
+      <div class="stat-card stat-blue">
+        <div class="stat-top">
+          <span class="stat-label">Total Petitions</span>
+          <div class="stat-icon bg-blue">📋</div>
+        </div>
+        <div class="stat-value" id="stat-total">--</div>
+        <div class="stat-desc">All registered student grievances</div>
+      </div>
+
+      <div class="stat-card stat-emerald">
+        <div class="stat-top">
+          <span class="stat-label">Resolved & Sealed</span>
+          <div class="stat-icon bg-emerald">✅</div>
+        </div>
+        <div class="stat-value" id="stat-resolved">--</div>
+        <div class="stat-desc">Cryptographically closed solutions</div>
+      </div>
+
+      <div class="stat-card stat-amber">
+        <div class="stat-top">
+          <span class="stat-label">In Review / Triage</span>
+          <div class="stat-icon bg-amber">⏳</div>
+        </div>
+        <div class="stat-value" id="stat-pending">--</div>
+        <div class="stat-desc">Under active officer investigation</div>
+      </div>
+
+      <div class="stat-card stat-rose">
+        <div class="stat-top">
+          <span class="stat-label">Auto-Escalated to DSW</span>
+          <div class="stat-icon bg-rose">🚨</div>
+        </div>
+        <div class="stat-value" id="stat-escalated">--</div>
+        <div class="stat-desc">SLA breached & elevated to Dean</div>
+      </div>
+    </div>
+
+    <!-- How It Works / Anti-Corruption Pillar Grid -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>⚙️</span>
+          <span>How RaisoVoice Solves Institutional Stagnation</span>
+        </div>
+        <a href="submit.html" class="btn btn-outline btn-sm">Start Filing →</a>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <!-- Pillar 1 -->
+        <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 20px;">
+          <div style="width: 44px; height: 44px; background: var(--color-emerald-100); color: var(--color-emerald-800); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+            🥷
+          </div>
+          <h3 style="font-size: 16px; margin-bottom: 8px;">1. Zero-PII Anonymous Shield</h3>
+          <p style="font-size: 13px; color: var(--color-slate-600); line-height: 1.5;">
+            Students can file complaints without submitting name, roll number, or institutional email. No retaliatory bias or grading consequences. You receive an encrypted private tracking key.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 20px;">
+          <div style="width: 44px; height: 44px; background: var(--color-primary-light); color: var(--color-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+            ⛓️
+          </div>
+          <h3 style="font-size: 16px; margin-bottom: 8px;">2. SHA-256 Cryptographic Chain</h3>
+          <p style="font-size: 13px; color: var(--color-slate-600); line-height: 1.5;">
+            Every complaint creates a Genesis block. Every subsequent administrative note, status update, or inspection seals a new cryptographically chained block. No official can silently edit or delete history.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 20px;">
+          <div style="width: 44px; height: 44px; background: var(--color-amber-100); color: var(--color-amber-800); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+            ⏱️
+          </div>
+          <h3 style="font-size: 16px; margin-bottom: 8px;">3. Strict SLA Deadlines</h3>
+          <p style="font-size: 13px; color: var(--color-slate-600); line-height: 1.5;">
+            Complaints have binding SLAs: Urgent (24h), High (48h), Medium (72h), Low (120h). If an assigned officer fails to resolve the issue within deadline, the ticket automatically escalates to the Dean of Student Welfare.
+          </p>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div style="background: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-md); padding: 20px;">
+          <div style="width: 44px; height: 44px; background: var(--color-indigo-100); color: var(--color-indigo-600); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+            📊
+          </div>
+          <h3 style="font-size: 16px; margin-bottom: 8px;">4. Public Transparency Dashboard</h3>
+          <p style="font-size: 13px; color: var(--color-slate-600); line-height: 1.5;">
+            Campus-wide institutional responsiveness metrics are published openly. Students see turnaround rates for hostel wardens, mess committees, computer center, and estate engineers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Public Activity Transparency Stream -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">
+            <span>📢</span>
+            <span>Recent Campus Redressal Activity</span>
+          </div>
+          <p style="font-size: 12px; color: var(--color-slate-500); margin-top: 4px;">
+            Live audit actions recorded on the institutional ledger. Student privacy strictly protected.
+          </p>
+        </div>
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">View Full Dashboard →</a>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Category & Description</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Assigned Department</th>
+              <th>Audit Blocks</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recent-complaints-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Hackathon Quick Navigation Banner -->
+    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #ffffff; border-radius: var(--radius-lg); padding: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; box-shadow: var(--shadow-md);">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <span style="background: var(--color-primary); color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-sm);">EVALUATION READY</span>
+          <h3 style="color: #ffffff; font-size: 18px;">Webster 2026 Live Interactive Demonstration</h3>
+        </div>
+        <p style="color: #94a3b8; font-size: 13px; max-width: 600px;">
+          Simulate unauthorized record tampering to watch the cryptographic validator trigger in real time, or test 1-click authority logins for MNNIT Dean and Hostel Wardens.
+        </p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="track.html?id=RV-2026-1001&code=VSH-7892-R1" class="btn btn-outline" style="color: #ffffff; border-color: rgba(255,255,255,0.4);">
+          ⚡ Test Live Ticket
+        </a>
+        <a href="admin.html" class="btn btn-primary">
+          🏛️ Launch Admin Console →
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="brand-link" style="margin-bottom: 12px;">
+          <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 16px;">🛡️</div>
+          <div class="brand-title" style="font-size: 17px;">Raiso<span>Voice</span></div>
+        </div>
+        <p style="line-height: 1.5; font-size: 13px; color: var(--color-slate-500); max-width: 440px;">
+          The Vishanti Petition is an immutable, cryptographically sealed student grievance platform engineered for Motilal Nehru National Institute of Technology (MNNIT) Allahabad. Built with pure client-side SHA-256 hashing and deterministic state machine transitions.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home Overview</a></li>
+          <li><a href="submit.html">File Grievance</a></li>
+          <li><a href="track.html">Track Petition</a></li>
+          <li><a href="dashboard.html">Transparency Dashboard</a></li>
+          <li><a href="admin.html">Authority Gateway</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>MNNIT Authorities</h4>
+        <ul class="footer-links">
+          <li><a href="admin.html">Dean Student Welfare (DSW)</a></li>
+          <li><a href="admin.html">Chief Warden Office</a></li>
+          <li><a href="admin.html">Chief Proctorial Board</a></li>
+          <li><a href="admin.html">Computer Center NOC</a></li>
+          <li><a href="admin.html">Estate Maintenance</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026 <strong>Team ByteForge</strong> (Team ID: 198) • Webster 2026 Hackathon, MNNIT Allahabad.
+      </div>
+      <div>
+        Pure HTML5 • Vanilla CSS3 • Client-Side Cryptographic Ledger
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/crypto.js"></script>
+  <script src="js/stateMachine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const complaints = window.ComplaintStorage.getStoredComplaints();
+
+      // Calculate Stats
+      const total = complaints.length;
+      const resolved = complaints.filter(c => c.status === 'Resolved').length;
+      const pending = complaints.filter(c => c.status === 'Filed' || c.status === 'Assigned' || c.status === 'In Review').length;
+      const escalated = complaints.filter(c => c.status === 'Escalated').length;
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-resolved').textContent = resolved;
+      document.getElementById('stat-pending').textContent = pending;
+      document.getElementById('stat-escalated').textContent = escalated;
+
+      // Populate Recent Complaints Table (Top 5)
+      const tbody = document.getElementById('recent-complaints-body');
+      tbody.innerHTML = '';
+
+      complaints.slice(0, 5).forEach(c => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="ticket-id-cell">${c.id}</td>
+          <td>
+            <div style="font-weight: 600; color: var(--color-slate-900);">${window.CommonUI.escapeHtml(c.subject)}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.category} • ${c.location || 'Campus'}</div>
+          </td>
+          <td>${window.CommonUI.getPriorityBadge(c.priority)}</td>
+          <td>${window.CommonUI.getStatusBadge(c.status)}</td>
+          <td style="max-width: 200px; font-size: 12px; color: var(--color-slate-700);">
+            <div style="font-weight: 500;">${c.department}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.assignedOfficer || 'Pending Assignment'}</div>
+          </td>
+          <td>
+            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: var(--color-slate-100); padding: 2px 6px; border-radius: 4px;">
+              ${c.auditChain ? c.auditChain.length : 1} Blocks
+            </span>
+          </td>
+          <td style="text-align: right;">
+            <a href="track.html?id=${encodeURIComponent(c.id)}&code=${encodeURIComponent(c.trackingCode)}" class="btn btn-outline btn-sm">
+              Track 🔍
+            </a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>

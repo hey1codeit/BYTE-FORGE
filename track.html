@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Tracking & Cryptographic Audit Ledger — RaisoVoice | MNNIT Allahabad</title>
+  <meta name="description" content="Cryptographically track student grievances with real-time SHA-256 chain verification, SLA countdowns, and tamper detection.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 18c-3.75-1.02-7-5.08-7-9.3V8.3l7-3.89 7 3.89v2.4c0 4.22-3.25 8.28-7 9.3z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="top-notice-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="hackathon-badge">Webster 2026</span>
+        <span>Team <strong>ByteForge</strong> (ID: 198) • Tamper-Evident Cryptographic Ledger Tracking</span>
+      </div>
+      <div>
+        <a href="admin.html" class="top-notice-link">Authority Admin Portal →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand-link">
+        <div class="brand-icon-box">🛡️</div>
+        <div class="brand-text">
+          <div class="brand-title">Raiso<span>Voice</span></div>
+          <div class="brand-subtitle">The Vishanti Petition • MNNIT Allahabad</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link active">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="submit.html" class="btn btn-primary btn-sm">
+          <span>+ File Petition</span>
+        </a>
+        <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-menu" class="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link active">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div style="max-width: 900px; margin: 0 auto;">
+
+      <!-- Header Section -->
+      <div style="margin-bottom: 28px; text-align: center;">
+        <div class="hero-pill">
+          <span>🔍</span>
+          <span>Cryptographic Ledger Verification</span>
+        </div>
+        <h1 style="font-size: 32px; margin-bottom: 8px;">Audit & Track Your Grievance</h1>
+        <p style="color: var(--color-slate-600); font-size: 14px;">
+          Enter your Public Ticket ID and Private Tracking Key to inspect sealed administrative actions and cryptographic hash continuity.
+        </p>
+      </div>
+
+      <!-- Search Card -->
+      <div class="card">
+        <form id="track-form" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: flex-end;">
+          <div>
+            <label class="form-label" for="search-id">Public Ticket ID *</label>
+            <input type="text" id="search-id" class="form-input" placeholder="e.g. RV-2026-1001" required style="font-family: var(--font-mono); font-weight: 600;">
+          </div>
+          <div>
+            <label class="form-label" for="search-code">Private Secret Tracking Key *</label>
+            <input type="text" id="search-code" class="form-input" placeholder="e.g. VSH-7892-R1" required style="font-family: var(--font-mono); font-weight: 600;">
+          </div>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">
+            <span>🔍 Verify & Inspect</span>
+          </button>
+        </form>
+
+        <!-- Quick Demo Chips for Judges -->
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-slate-200);">
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-slate-500); display: block; margin-bottom: 8px;">
+            ⚡ Quick-Fill Demo Samples for Hackathon Evaluators:
+          </span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('RV-2026-1001', 'VSH-7892-R1')">
+              🏢 Raman Hostel Geyser (In Review)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('RV-2026-1002', 'VSH-4421-E9')">
+              🚨 Tilak Mess Dal (Escalated to DSW)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('RV-2026-1003', 'VSH-9011-L4')">
+              ✅ Library Wi-Fi APs (Resolved)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Container (Initially Empty or Populated via URL) -->
+      <div id="result-container" style="display: none;">
+
+        <!-- Complaint Overview Banner Card -->
+        <div class="card" style="border: 2px solid var(--color-primary); background: #ffffff;">
+          <div class="card-header" style="border-bottom: 1px solid var(--color-slate-200); padding-bottom: 14px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;">
+                <span id="ticket-id-display" style="font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: var(--color-primary);">--</span>
+                <span id="status-badge-container"></span>
+                <span id="priority-badge-container"></span>
+                <span id="sla-countdown-container"></span>
+              </div>
+              <h2 id="complaint-subject-display" style="font-size: 18px; margin-top: 4px;">--</h2>
+            </div>
+
+            <!-- Fast-Forward SLA & Auto-Escalate Simulation Button -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button id="btn-escalate" type="button" class="btn btn-secondary btn-sm" style="color: var(--color-rose-600); border-color: var(--color-rose-300);" onclick="handleTriggerEscalate()">
+                <span>⚡ Fast-Forward SLA Expiry</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Metadata Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; font-size: 13px;">
+            <div style="background: var(--color-slate-50); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--color-slate-200);">
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-slate-500); display: block; margin-bottom: 4px;">Department Triage</span>
+              <div style="font-weight: 600; color: var(--color-slate-900);" id="dept-display">--</div>
+              <div style="font-size: 12px; color: var(--color-slate-500); margin-top: 2px;">
+                Assigned Officer: <strong id="officer-display">--</strong>
+              </div>
+            </div>
+
+            <div style="background: var(--color-slate-50); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--color-slate-200);">
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-slate-500); display: block; margin-bottom: 4px;">Petitioner Privacy</span>
+              <div style="font-weight: 600;" id="petitioner-display">--</div>
+              <div style="font-size: 12px; color: var(--color-slate-500); margin-top: 2px;">
+                Location: <strong id="location-display">--</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Box -->
+          <div style="background: var(--color-slate-50); padding: 14px 18px; border-radius: var(--radius-md); border-left: 4px solid var(--color-primary); font-size: 13px; line-height: 1.6; color: var(--color-slate-700); margin-bottom: 20px;">
+            <div style="font-weight: 700; color: var(--color-slate-900); margin-bottom: 4px;">Student Statement of Grievance:</div>
+            <p id="description-display" style="white-space: pre-line;">--</p>
+          </div>
+
+          <!-- Step Progression Pipeline -->
+          <div style="border-top: 1px solid var(--color-slate-200); padding-top: 16px;">
+            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-slate-500); display: block; margin-bottom: 12px;">Institutional Resolution Pipeline</span>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;" id="pipeline-steps">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Anti-Corruption & Tamper Simulator Demo Box -->
+        <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 1px solid #fecaca; border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">🧪</span>
+                <h3 style="font-size: 16px; color: #991b1b;">Live Hackathon Proof: Tamper-Evident Testing</h3>
+              </div>
+              <p style="font-size: 12px; color: #7f1d1d; margin-top: 4px; max-width: 600px;">
+                Demonstrate how corrupt attempts to illegally rewrite officer audit notes break the cryptographic SHA-256 seal immediately.
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn btn-sm btn-danger" onclick="simulateTampering()">
+                ⚠️ Simulate Tampering Block #2
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="restoreCleanState()">
+                ↺ Restore Clean Ledger
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cryptographic Hash Audit Viewer Container -->
+        <div id="audit-viewer-container"></div>
+
+      </div>
+
+      <!-- No Match Error Alert -->
+      <div id="not-found-alert" style="display: none;" class="card">
+        <div style="text-align: center; padding: 24px;">
+          <div style="font-size: 36px; margin-bottom: 8px;">❌</div>
+          <h3 style="font-size: 18px; color: var(--color-slate-900); margin-bottom: 6px;">No Grievance Found</h3>
+          <p style="color: var(--color-slate-600); font-size: 13px; max-width: 480px; margin: 0 auto 16px auto;">
+            We could not find a ticket matching that ID and secret tracking code. Please verify both entries or click one of the evaluation samples above.
+          </p>
+          <button class="btn btn-secondary btn-sm" onclick="quickFill('RV-2026-1001', 'VSH-7892-R1')">
+            Try Demo Ticket RV-2026-1001
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="brand-link" style="margin-bottom: 12px;">
+          <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 16px;">🛡️</div>
+          <div class="brand-title" style="font-size: 17px;">Raiso<span>Voice</span></div>
+        </div>
+        <p style="font-size: 13px; color: var(--color-slate-500);">
+          Corrupt-proof student grievance management platform for MNNIT Allahabad. Built by Team ByteForge.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Direct Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">File Grievance</a></li>
+          <li><a href="dashboard.html">Transparency Dashboard</a></li>
+          <li><a href="admin.html">Authority Console</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Verification Protocol</h4>
+        <p style="font-size: 12px; color: var(--color-slate-500);">
+          Recomputed hashes compare every character in the audit block against its original SHA-256 digital signature.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Team ByteForge • Webster 2026, MNNIT Allahabad</div>
+      <div>Zero-Tamper Cryptographic Audit Protocol</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/crypto.js"></script>
+  <script src="js/stateMachine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    let activeComplaint = null;
+
+    function quickFill(id, code) {
+      document.getElementById('search-id').value = id;
+      document.getElementById('search-code').value = code;
+      executeSearch(id, code);
+    }
+
+    function executeSearch(id, code) {
+      const notFoundAlert = document.getElementById('not-found-alert');
+      const resultContainer = document.getElementById('result-container');
+
+      const found = window.ComplaintStorage.getComplaintByTracking(id, code);
+      if (!found) {
+        notFoundAlert.style.display = 'block';
+        resultContainer.style.display = 'none';
+        activeComplaint = null;
+        return;
+      }
+
+      notFoundAlert.style.display = 'none';
+      resultContainer.style.display = 'block';
+      activeComplaint = found;
+      renderComplaintDetails(found);
+    }
+
+    function renderComplaintDetails(c) {
+      document.getElementById('ticket-id-display').textContent = c.id;
+      document.getElementById('complaint-subject-display').textContent = c.subject;
+      document.getElementById('description-display').textContent = c.description;
+      document.getElementById('dept-display').textContent = c.department;
+      document.getElementById('officer-display').textContent = c.assignedOfficer || 'Pending Officer Assignment';
+      document.getElementById('location-display').textContent = c.location || 'Campus / Hostel';
+
+      // Privacy
+      const petEl = document.getElementById('petitioner-display');
+      if (c.isAnonymous) {
+        petEl.innerHTML = '<span style="color: var(--color-emerald-600);">🔒 True Anonymous (Zero PII Recorded)</span>';
+      } else {
+        petEl.textContent = `${c.studentName} (${c.studentRegNo || 'Reg No Sealed'})`;
+      }
+
+      // Badges
+      document.getElementById('status-badge-container').innerHTML = window.CommonUI.getStatusBadge(c.status);
+      document.getElementById('priority-badge-container').innerHTML = window.CommonUI.getPriorityBadge(c.priority);
+
+      // SLA Countdown
+      const slaRemaining = window.StateMachine.formatSlaRemaining(c.slaDeadline);
+      const slaEl = document.getElementById('sla-countdown-container');
+      if (c.status === 'Resolved') {
+        slaEl.innerHTML = `<span class="sla-widget active">✅ Resolved on Schedule</span>`;
+      } else if (c.status === 'Escalated' || slaRemaining.isOverdue) {
+        slaEl.innerHTML = `<span class="sla-widget overdue">🚨 SLA Breached (${slaRemaining.text})</span>`;
+      } else {
+        slaEl.innerHTML = `<span class="sla-widget">⏱️ SLA: ${slaRemaining.text}</span>`;
+      }
+
+      // Pipeline Steps (Filed -> Assigned -> In Review -> Resolved)
+      const steps = ['Filed', 'Assigned', 'In Review', 'Resolved'];
+      const pipelineContainer = document.getElementById('pipeline-steps');
+      pipelineContainer.innerHTML = '';
+
+      let currentStepIndex = steps.indexOf(c.status);
+      if (c.status === 'Escalated') currentStepIndex = 2; // Marked as escalated at review level
+
+      steps.forEach((step, idx) => {
+        const isPassed = idx <= currentStepIndex;
+        const isCurrent = idx === currentStepIndex;
+
+        const stepDiv = document.createElement('div');
+        stepDiv.style.cssText = `
+          background: ${isPassed ? 'var(--color-primary-light)' : 'var(--color-slate-100)'};
+          border: 1px solid ${isPassed ? 'var(--color-primary)' : 'var(--color-slate-200)'};
+          border-radius: var(--radius-sm);
+          padding: 8px 10px;
+          text-align: center;
+          font-size: 11px;
+          font-weight: 700;
+          color: ${isPassed ? 'var(--color-primary)' : 'var(--color-slate-500)'};
+        `;
+        stepDiv.textContent = `${idx + 1}. ${step}`;
+        pipelineContainer.appendChild(stepDiv);
+      });
+
+      // Render Cryptographic Audit Chain
+      window.CommonUI.renderAuditChain(c.auditChain, 'audit-viewer-container');
+    }
+
+    function handleTriggerEscalate() {
+      if (!activeComplaint) return;
+      const updated = window.ComplaintStorage.triggerAutoEscalate(activeComplaint.id);
+      if (updated) {
+        activeComplaint = updated;
+        renderComplaintDetails(updated);
+        window.CommonUI.showToast('Grievance automatically elevated to Dean of Student Welfare!', 'success');
+      }
+    }
+
+    function simulateTampering() {
+      if (!activeComplaint) return;
+      // Corrupt block 1 (or 0) text without recalculating cryptographic hashes
+      const targetIndex = activeComplaint.auditChain.length > 1 ? 1 : 0;
+      window.ComplaintStorage.simulateTamperBlock(
+        activeComplaint.id,
+        targetIndex,
+        'ILLEGAL TAMPER: Complaint suppressed by corrupt contractor; geysers reported fine.'
+      );
+      activeComplaint = window.ComplaintStorage.getComplaintById(activeComplaint.id);
+      renderComplaintDetails(activeComplaint);
+      window.CommonUI.showToast('Corrupted audit note injected! Cryptographic validation failed.', 'error');
+    }
+
+    function restoreCleanState() {
+      window.ComplaintStorage.resetToSeedComplaints();
+      if (activeComplaint) {
+        activeComplaint = window.ComplaintStorage.getComplaintById(activeComplaint.id);
+        renderComplaintDetails(activeComplaint);
+      }
+      window.CommonUI.showToast('Ledger reset to authentic untampered demo state.', 'success');
+    }
+
+    // Auto-search on page load if query params present
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlId = params.get('id');
+      const urlCode = params.get('code');
+
+      if (urlId && urlCode) {
+        document.getElementById('search-id').value = urlId;
+        document.getElementById('search-code').value = urlCode;
+        executeSearch(urlId, urlCode);
+      } else {
+        // Default to Demo 1 for instant evaluation
+        quickFill('RV-2026-1001', 'VSH-7892-R1');
+      }
+
+      document.getElementById('track-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('search-id').value.trim();
+        const code = document.getElementById('search-code').value.trim();
+        executeSearch(id, code);
+      });
+    });
+  </script>
+</body>
+</html>

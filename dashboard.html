@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Transparency Dashboard — RaisoVoice | MNNIT Allahabad</title>
+  <meta name="description" content="Public governance performance metrics and department resolution analytics for MNNIT Allahabad.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 18c-3.75-1.02-7-5.08-7-9.3V8.3l7-3.89 7 3.89v2.4c0 4.22-3.25 8.28-7 9.3z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-notice-bar">
+    <div class="top-notice-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="hackathon-badge">Webster 2026</span>
+        <span>Team <strong>ByteForge</strong> (ID: 198) • Public Institutional Accountability Metrics</span>
+      </div>
+      <div>
+        <a href="admin.html" class="top-notice-link">Authority Portal →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand-link">
+        <div class="brand-icon-box">🛡️</div>
+        <div class="brand-text">
+          <div class="brand-title">Raiso<span>Voice</span></div>
+          <div class="brand-subtitle">The Vishanti Petition • MNNIT Allahabad</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link active">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="submit.html" class="btn btn-primary btn-sm">
+          <span>+ File Petition</span>
+        </a>
+        <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-menu" class="mobile-nav-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="submit.html" class="nav-link">File Complaint</a></li>
+        <li><a href="track.html" class="nav-link">Live Tracking</a></li>
+        <li><a href="dashboard.html" class="nav-link active">Public Dashboard</a></li>
+        <li><a href="admin.html" class="nav-link">Authority Portal</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Page Header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--color-slate-200);">
+      <div>
+        <div class="hero-pill" style="margin-bottom: 10px;">
+          <span>📊</span>
+          <span>Open Governance & Institutional Responsiveness</span>
+        </div>
+        <h1 style="font-size: 32px; margin-bottom: 6px;">Campus Grievance Performance Dashboard</h1>
+        <p style="color: var(--color-slate-600); font-size: 14px;">
+          Uncensored metrics on MNNIT department resolution rates, average turnaround hours, and SLA compliance.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <a href="submit.html" class="btn btn-primary">File Grievance</a>
+        <a href="track.html" class="btn btn-secondary">Track Ticket</a>
+      </div>
+    </div>
+
+    <!-- Primary Metric Cards -->
+    <div class="stats-grid">
+      <div class="stat-card stat-blue">
+        <div class="stat-top">
+          <span class="stat-label">Total Grievances</span>
+          <div class="stat-icon bg-blue">📋</div>
+        </div>
+        <div class="stat-value" id="kpi-total">--</div>
+        <div class="stat-desc">All registered petitions campus-wide</div>
+      </div>
+
+      <div class="stat-card stat-emerald">
+        <div class="stat-top">
+          <span class="stat-label">Resolution Rate</span>
+          <div class="stat-icon bg-emerald">📈</div>
+        </div>
+        <div class="stat-value" id="kpi-rate">--%</div>
+        <div class="stat-desc" id="kpi-resolved-sub">-- Resolved successfully</div>
+      </div>
+
+      <div class="stat-card stat-amber">
+        <div class="stat-top">
+          <span class="stat-label">Under Investigation</span>
+          <div class="stat-icon bg-amber">🔍</div>
+        </div>
+        <div class="stat-value" id="kpi-pending">--</div>
+        <div class="stat-desc">Filed, assigned, or under active inspection</div>
+      </div>
+
+      <div class="stat-card stat-rose">
+        <div class="stat-top">
+          <span class="stat-label">Overdue / Escalated</span>
+          <div class="stat-icon bg-rose">🚨</div>
+        </div>
+        <div class="stat-value" id="kpi-escalated">--</div>
+        <div class="stat-desc">SLA breached; elevated to DSW</div>
+      </div>
+    </div>
+
+    <!-- Department Accountability Breakdown -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>🏛️</span>
+          <span>MNNIT Department SLA Compliance & Responsiveness</span>
+        </div>
+        <span style="font-size: 12px; color: var(--color-slate-500);">Live Institutional Scorecard</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;" id="dept-cards-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Public Grievances Ledger & Table -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">
+            <span>📋</span>
+            <span>Public Non-Confidential Grievance Feed</span>
+          </div>
+          <p style="font-size: 12px; color: var(--color-slate-500); margin-top: 4px;">
+            Full institutional visibility into complaint statuses and SLA timers. Student identities remain confidential.
+          </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <input type="text" id="filter-search" class="form-input" placeholder="Search title, dept, ID..." style="width: 200px; padding: 6px 12px; font-size: 12px;" oninput="applyFilters()">
+          <select id="filter-status" class="form-select" style="width: 140px; padding: 6px 12px; font-size: 12px;" onchange="applyFilters()">
+            <option value="All">All Statuses</option>
+            <option value="Filed">Filed</option>
+            <option value="Assigned">Assigned</option>
+            <option value="In Review">In Review</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Escalated">Escalated</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Category & Title</th>
+              <th>Priority</th>
+              <th>Current Status</th>
+              <th>Assigned Department</th>
+              <th>SLA Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-table-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="brand-link" style="margin-bottom: 12px;">
+          <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 16px;">🛡️</div>
+          <div class="brand-title" style="font-size: 17px;">Raiso<span>Voice</span></div>
+        </div>
+        <p style="font-size: 13px; color: var(--color-slate-500);">
+          Corrupt-proof student grievance management platform for MNNIT Allahabad. Built by Team ByteForge.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Direct Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">File Grievance</a></li>
+          <li><a href="track.html">Live Tracking</a></li>
+          <li><a href="admin.html">Authority Console</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Open Data Initiative</h4>
+        <p style="font-size: 12px; color: var(--color-slate-500);">
+          All performance metrics are generated from client-side cryptographic ledger consensus.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Team ByteForge • Webster 2026, MNNIT Allahabad</div>
+      <div>Open Governance Transparency Standard</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/crypto.js"></script>
+  <script src="js/stateMachine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    let allComplaints = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      allComplaints = window.ComplaintStorage.getStoredComplaints();
+      renderKPIs();
+      renderDepartmentCards();
+      renderTable(allComplaints);
+    });
+
+    function renderKPIs() {
+      const total = allComplaints.length;
+      const resolved = allComplaints.filter(c => c.status === 'Resolved').length;
+      const pending = allComplaints.filter(c => ['Filed', 'Assigned', 'In Review'].includes(c.status)).length;
+      const escalated = allComplaints.filter(c => c.status === 'Escalated').length;
+
+      const rate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+
+      document.getElementById('kpi-total').textContent = total;
+      document.getElementById('kpi-rate').textContent = `${rate}%`;
+      document.getElementById('kpi-resolved-sub').textContent = `${resolved} of ${total} resolved`;
+      document.getElementById('kpi-pending').textContent = pending;
+      document.getElementById('kpi-escalated').textContent = escalated;
+    }
+
+    function renderDepartmentCards() {
+      const deptStats = {};
+      window.StateMachine.DEPARTMENTS.forEach(d => {
+        deptStats[d] = { total: 0, resolved: 0, escalated: 0 };
+      });
+
+      allComplaints.forEach(c => {
+        if (!deptStats[c.department]) {
+          deptStats[c.department] = { total: 0, resolved: 0, escalated: 0 };
+        }
+        deptStats[c.department].total += 1;
+        if (c.status === 'Resolved') deptStats[c.department].resolved += 1;
+        if (c.status === 'Escalated') deptStats[c.department].escalated += 1;
+      });
+
+      const container = document.getElementById('dept-cards-grid');
+      container.innerHTML = '';
+
+      Object.keys(deptStats).forEach(deptName => {
+        const s = deptStats[deptName];
+        if (s.total === 0) return; // Only show active departments
+
+        const compliance = s.total > 0 ? Math.round(((s.total - s.escalated) / s.total) * 100) : 100;
+
+        const card = document.createElement('div');
+        card.style.cssText = `
+          background: var(--color-slate-50);
+          border: 1px solid var(--color-slate-200);
+          border-radius: var(--radius-md);
+          padding: 16px;
+        `;
+        card.innerHTML = `
+          <div style="font-size: 13px; font-weight: 700; color: var(--color-slate-900); margin-bottom: 8px;">
+            ${deptName}
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--color-slate-600); margin-bottom: 8px;">
+            <span>Total: <strong>${s.total}</strong></span>
+            <span>Resolved: <strong style="color: var(--color-emerald-600);">${s.resolved}</strong></span>
+            <span>Escalated: <strong style="color: var(--color-rose-600);">${s.escalated}</strong></span>
+          </div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--color-slate-500); margin-bottom: 4px; display: flex; justify-content: space-between;">
+            <span>SLA Compliance Rate</span>
+            <span style="color: ${compliance >= 80 ? 'var(--color-emerald-600)' : 'var(--color-rose-600)'};">${compliance}%</span>
+          </div>
+          <div style="background: var(--color-slate-200); border-radius: var(--radius-full); height: 6px; overflow: hidden;">
+            <div style="background: ${compliance >= 80 ? 'var(--color-emerald-600)' : 'var(--color-rose-600)'}; width: ${compliance}%; height: 100%;"></div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderTable(complaints) {
+      const tbody = document.getElementById('dashboard-table-body');
+      tbody.innerHTML = '';
+
+      if (complaints.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: var(--color-slate-500);">No complaints match your filter.</td></tr>`;
+        return;
+      }
+
+      complaints.forEach(c => {
+        const tr = document.createElement('tr');
+        const sla = window.StateMachine.formatSlaRemaining(c.slaDeadline);
+
+        let slaBadgeHtml = '';
+        if (c.status === 'Resolved') {
+          slaBadgeHtml = `<span style="color: var(--color-emerald-700); font-weight: 600;">Resolved</span>`;
+        } else if (c.status === 'Escalated' || sla.isOverdue) {
+          slaBadgeHtml = `<span style="color: var(--color-rose-600); font-weight: 700;">Overdue (${sla.text})</span>`;
+        } else {
+          slaBadgeHtml = `<span style="color: var(--color-slate-700); font-family: var(--font-mono);">${sla.text}</span>`;
+        }
+
+        tr.innerHTML = `
+          <td class="ticket-id-cell">${c.id}</td>
+          <td>
+            <div style="font-weight: 600; color: var(--color-slate-900);">${window.CommonUI.escapeHtml(c.subject)}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.category} • ${c.location || 'Campus'}</div>
+          </td>
+          <td>${window.CommonUI.getPriorityBadge(c.priority)}</td>
+          <td>${window.CommonUI.getStatusBadge(c.status)}</td>
+          <td style="font-size: 12px;">
+            <div style="font-weight: 500;">${c.department}</div>
+            <div style="font-size: 11px; color: var(--color-slate-500);">${c.assignedOfficer || 'Unassigned'}</div>
+          </td>
+          <td>${slaBadgeHtml}</td>
+          <td style="text-align: right;">
+            <a href="track.html?id=${encodeURIComponent(c.id)}&code=${encodeURIComponent(c.trackingCode)}" class="btn btn-outline btn-sm">
+              Track 🔍
+            </a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('filter-search').value.toLowerCase().trim();
+      const statusFilter = document.getElementById('filter-status').value;
+
+      const filtered = allComplaints.filter(c => {
+        if (statusFilter !== 'All' && c.status !== statusFilter) return false;
+        if (query) {
+          const matchId = c.id.toLowerCase().includes(query);
+          const matchSub = c.subject.toLowerCase().includes(query);
+          const matchDept = c.department.toLowerCase().includes(query);
+          return matchId || matchSub || matchDept;
+        }
+        return true;
+      });
+
+      renderTable(filtered);
+    }
+  </script>
+</body>
+</html>
